@@ -13,3 +13,4 @@ shap == 0.46.0
 statsmodels == 0.14.4
 tensorflow == 2.18.0
 xgboost == 2.1.2
+ipython == 8.27.0
