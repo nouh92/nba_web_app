@@ -1,4 +1,2 @@
-_DATAS/
-_PRE_PRO_DATAS/
-*.joblib
+models_saved/rf_model.joblib
 *.h5
