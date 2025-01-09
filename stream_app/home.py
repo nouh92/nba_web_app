@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 
 def main():
@@ -6,7 +7,11 @@ def main():
   col1, col2, col3 = st.columns(3, vertical_alignment='center')
 
   with col1:
-    st.image('datascientest_logo.png', use_container_width=True)    
+    image_path = os.path.join(os.path.dirname(__file__), 'datascientest_logo.png')
+    if os.path.exists('datascientest_logo.png', output_format='PNG'):
+      st.image('datascientest_logo.png', use_container_width=True)
+    else:
+      st.write("Logo file not found.")
   with col2:
     st.image("NBA-img.jpg")
   with col3:

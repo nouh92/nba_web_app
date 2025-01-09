@@ -621,7 +621,7 @@ def time_left_viz(fg):
 
 @st.cache_data
 def nb_shots_per_player():
-    df = pd.read_csv('../_DATAS/games_details.csv', low_memory=False)
+    df = pd.read_csv('../_PRE_PRO_DATAS/games_details.csv', low_memory=False)
     df['PLAYER_NAME'] = df['PLAYER_NAME'].str.upper()
     top20 = ['Giannis Antetokounmpo', 'Stephen Curry', 'LeBron James', 'Kevin Durant', 'Anthony Davis', 
              'Paul George', 'Kawhi Leonard', 'Damian Lillard', 'Kyrie Irving', 'Jimmy Butler', 
