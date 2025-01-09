@@ -15,7 +15,6 @@ from scipy.stats import chi2_contingency
 import statsmodels.api as sm
 
 import shap
-import kaleido
 
 import streamlit as st
 
