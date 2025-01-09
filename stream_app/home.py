@@ -8,8 +8,8 @@ def main():
 
   with col1:
     image_path = os.path.join(os.path.dirname(__file__), 'datascientest_logo.png')
-    if os.path.exists('datascientest_logo.png', output_format='PNG'):
-      st.image('datascientest_logo.png', use_container_width=True)
+    if os.path.exists('datascientest_logo.png'):
+      st.image('datascientest_logo.png', output_format='PNG')
     else:
       st.write("Logo file not found.")
   with col2:
