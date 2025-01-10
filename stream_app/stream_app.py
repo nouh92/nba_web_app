@@ -1,4 +1,8 @@
 import streamlit as st
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+import sys
+print(sys.executable)
 
 # Configuration globale
 st.set_page_config(
