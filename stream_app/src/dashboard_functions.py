@@ -255,7 +255,7 @@ def player_shots_stats_per_game(df, player_name):
     ))
 
     fig.update_layout(
-        title="Moy. des tirs et points par match par année",
+        title="Moy. des tirs dans le jeu et points par match par année (hors lancer-francs)",
         xaxis=dict(
             tickangle=-45,
             showgrid=False,  

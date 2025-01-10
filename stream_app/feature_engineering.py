@@ -50,7 +50,7 @@ def main() :
       """
     )
     col1, _ = st.columns([4,1])
-    col1.image("api_playbyplayv2.png")
+    col1.image("img/api_playbyplayv2.png")
 
   st.subheader('II. Feature engineering')
   st.markdown(

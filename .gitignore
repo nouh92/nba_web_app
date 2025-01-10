@@ -2,3 +2,8 @@ _DATAS/
 _PRE_PRO_DATAS/
 *.joblib
 *.h5
+
+__pycache__/
+*.pyc
+
+
