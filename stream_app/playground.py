@@ -145,7 +145,7 @@ def set_colors(m1_accuracy, m1_f1_0, m1_f1_1, m2_accuracy=0, m2_f1_0=0, m2_f1_1=
 # Construction du graphique
 #####################################
 
-def build_fig(df, label='target', step=20):
+def build_fig(df, label='target', step=15):
 
   # Les coordonnées X et Y sont exprimées en dixièmes de pieds, soit environ 3 centimètres
   # En arrondissant avec la variable "step", on réduit la granularité
@@ -162,7 +162,8 @@ def build_fig(df, label='target', step=20):
   df[label] = df.apply(lambda x: round(x[label], 2), axis=1)
 
   # Taille des points (règle de calcul à ajuster en fonction du rendu souhaité)
-  df['scaled'] = df.apply(lambda x: 2*x['count']**.5, axis=1)
+  coeff = .7 if df['count'].max() < 500 else .6
+  df['scaled'] = df.apply(lambda x: 3*x['count']**coeff, axis=1)
 
   # Affichage des données
   fig = px.scatter(df, x='Xloc', y='Yloc',

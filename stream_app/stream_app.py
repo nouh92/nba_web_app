@@ -32,7 +32,7 @@ pages=[
 "Introduction", 
 "Exploratory Data Analysis", 
 "Feature Engineering & preprocessing", 
-"Modélisation",
+"Classification",
 "Players dashboard",
 "Playground",
 "Conclusion"
