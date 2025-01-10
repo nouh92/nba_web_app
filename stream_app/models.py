@@ -75,17 +75,7 @@ def main():
         """
     )
 
-    df = pd.read_csv('../_PRE_PRO_DATAS/merged.csv', index_col=0).sort_index()
-        
-    file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../_PRE_PRO_DATAS/merged.csv'))
-    print(f"Looking for file at: {file_path}")
-
-    # Check if the file exists
-    if os.path.exists(file_path):
-        df = pd.read_csv(file_path, index_col=0).sort_index()
-        print("File loaded successfully.")
-    else:
-        print(f"File not found: {file_path}")
+    df = pd.read_csv('_PRE_PRO_DATAS/merged.csv', index_col=0).sort_index()
 
     with st.expander("Nouveaux tests Khi2 sur les variables catégorielles"):
         var_list = ['shotZoneBasic', 'shotZoneArea', 'shotZoneRange', 'player', 'previousEvent', 'shotType']
