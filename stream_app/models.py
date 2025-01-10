@@ -232,7 +232,7 @@ def main():
     st.subheader("III. Interprétation du modèle eXtreme Gradient Boost avec SHAP")
  
    
-    _explanation, explanation_obj, shap_values, base_value = SHAP_explanations(_model = xgb_model, 
+    _explanation, shap_values = SHAP_explanations(_model = xgb_model, 
                                                                 X_train = X_train,
                                                                 X_test = X_test,
                                                                 preds = xgb_preds,
@@ -250,7 +250,7 @@ def main():
         step=1
     )
 
-        fig = SHAP_summary_plot(_explanation, shap_values, X_test, feature_names, max_display=nb_features)
+        fig = SHAP_summary_plot(shap_values, X_test, feature_names, max_display=nb_features)
         st.pyplot(fig)
  
     with col2:

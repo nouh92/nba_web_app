@@ -821,7 +821,8 @@ def SHAP_explanations(_model, X_train, X_test, preds, feature_names, explainer_t
     explanation = explainer(X_test)
     
     # Exploration de l'objet 'explanation' et extraction des datas
-    shap_values, mean_base_value = SHAP_explanation_checking(explanation=explanation)
+    shap_values = explanation.values.squeeze() 
+
     print('------------------------------------------------------------------------------------------------------------------------')
     
     print("Création des valeurs manquantes")
@@ -832,31 +833,8 @@ def SHAP_explanations(_model, X_train, X_test, preds, feature_names, explainer_t
     else:
       print("shap_values existe déjà.")
       
-    if 'mean_base_value' not in locals() or mean_base_value is None:  # Vérifie si base_value existe déjà
-      mean_base_value = np.mean(preds, axis=0) # moyenne des prédictions du modèle sur l'échantillon
-      mean_base_value  = round(mean_base_value[0],2)
-      print("Moyenne des 'base_values', soit la moyenne des prédictions du modèle DNN :", mean_base_value)
-    else:
-      print("mean_base_value existe déjà.")
-      
 
-    print('------------------------------------------------------------------------------------------------------------------------')
-    
-    # Reconstitution de 'explanation' dans un nouvel objet pour le manipuler facilement
-    print("\nCréation d'un objet avec les valeurs calculées et les feature_names.", end = '\n\n') 
-    explanation_obj = shap.Explanation(values=shap_values, 
-                                       base_values=mean_base_value, 
-                                       data=X_test, 
-                                       feature_names=feature_names)
-    
-    print("Vérification du nouvel objet explanation_obj :", type(explanation_obj), end = '\n\n')
-    print("Format de explanation : ", explanation_obj.shape, end = '\n\n')
-    print("Format des SHAP values :", explanation_obj.values.shape, end = '\n\n')
-    print("Moyenne des Base Values : ", explanation_obj.base_values, end = '\n\n')
-    print("Nombre de Feature Names: ", len(explanation_obj.feature_names), end = '\n\n')
-    print('------------------------------------------------------------------------------------------------------------------------')
-
-    return explanation, explanation_obj, shap_values, mean_base_value
+    return explanation, shap_values
 
 
 def SHAP_explanation_checking(explanation):
@@ -900,21 +878,8 @@ def SHAP_explanation_checking(explanation):
     return shap_values, mean_base_value
 
 
-def SHAP_reliability(model_name, shap_values, base_value, preds):
-    # Fonction pour vérifier que SHAP explique correctement les prédictions du modèle
-
-    print(f"Prédiction moyenne du modèle {model_name} :", base_value, end='\n\n')
-    shap_reconstructed_preds = shap_values.sum(axis=1) + base_value # => prédiction reconstituée par SHAP en ajoutant la somme des shap_values à la moyenne des prédictions
-    
-    #Vérification de la reconstruction SHAP
-    ecart_moyen = np.abs(shap_reconstructed_preds - preds).mean().flatten()
-    ecart_max = np.abs(shap_reconstructed_preds - preds).max().flatten()
-    
-    print("Ecart moyen entre les prédictions reconstituées par SHAP et les prédictions du modèle : ", round(ecart_moyen[0],2), end='\n\n')
-    print("Ecart maximal entre les prédictions reconstituées par SHAP et les prédictions du modèle : ", round(ecart_max[0],2), end='\n\n')
-
 @st.cache_data
-def SHAP_summary_plot(_explanation, shap_values, X_test, feature_names, max_display=10, title="Features importances"):
+def SHAP_summary_plot(shap_values, X_test, feature_names, max_display=10, title="Features importances"):
     fig, ax = plt.subplots(figsize=(5, 3))
     shap.summary_plot(shap_values, X_test, feature_names=feature_names, max_display=max_display, show=False)
     plt.title(title)
@@ -928,168 +893,3 @@ def decisionWaterfall(_explanation, event_index=1, max_display=10):
     shap.plots.waterfall(_explanation[event_index], max_display=max_display, show=False)
     plt.title(title)
     return fig
-
-
-
-
-#------------------------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------------------------------------------------------------------------------------------#
-## ARCHIVES ===> FONCTIONS INTIALES AVEC MATPLOTLIB  ET SEABORN
-## LA PLUPART ONT ÉTÉ REFAITES AVEC PLOTLY
-#------------------------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------------------------------------------------------------------------------------------#
-
-@st.cache_data
-def pie_plots(zones, titles):
-    # Afichage de graphique ede type pie plot
-    title_font = {
-        'fontsize': 12,
-        'fontweight': 'bold',
-    }
-    
-    colors = ['yellowgreen', 'mistyrose', 'lightsteelblue', 'lightcoral', 'thistle', 'paleturquoise']
-    
-    print("\033[1m" + "Répartition des tirs par zones" + "\033[0;0m")
-    fig, axes = plt.subplots(1, 3, figsize=(17, 7))
-    
-    for i, (zone, title) in enumerate(zip(zones, titles)):
-        axes[i].pie(zone.values, labels=zone.index, autopct='%1.1f%%', colors=colors, normalize=True)
-        axes[i].set_title(title, fontdict=title_font)
-    
-    plt.subplots_adjust(wspace=0.7, hspace=.8)
-    st.pyplot(fig)
-
-
-
-@st.cache_data
-def boxplot_zones(missed, scored):
-    # Visualisation des zones des tirs manqués et réussis en boxplot
-    print("\033[1m" + "Distribution des tirs en largeur et en longueur" + "\033[0;0m")
-    print("Une unité représente 0.1 pied, soit 3 centimètres")
-
-    fig, axes = plt.subplots(1, 4, figsize=(10, 3))
-    title_font={
-        'fontsize': 5
-    }
-    
-    sns.boxplot(ax=axes[0], data=missed['X Location'], orient='h',
-                boxprops = {'color' :'lightsteelblue'},
-                whiskerprops = {'color' : 'saddlebrown'},
-                capprops = {'color': "lightcoral"},
-                flierprops = {'marker' : 'o', 'color' : 'red', 'markersize' : 2},
-                medianprops = {'color': "white", 'linewidth' : 2})
-    axes[0].set_title('Distrib. tirs manqués sur la largeur X', fontdict=title_font)
-    axes[0].tick_params(axis='both', labelsize=6)
-    axes[0].set_xlabel('X Location', fontsize=7)  
-    axes[0].set_ylabel('Y Location', fontsize=7) 
-    
-    sns.boxplot(ax=axes[1], data=missed['Y Location'], orient='v',
-                boxprops = {'color' :'lightsteelblue'},
-                whiskerprops = {'color' : 'saddlebrown'},
-                capprops = {'color': "lightcoral"},
-                flierprops = {'marker' : 'o', 'color' : 'red', 'markersize' : 2},
-                medianprops = {'color': "white", 'linewidth' : 2})
-    axes[1].set_title('Distrib. tirs manqués sur la longueur Y', fontdict=title_font)
-    axes[1].tick_params(axis='both', labelsize=6)
-    axes[1].set_xlabel('X Location', fontsize=7)  
-    axes[1].set_ylabel('Y Location', fontsize=7)
-    
-    sns.boxplot(ax=axes[2], data=scored['X Location'], orient='h',
-                boxprops = {'color' :'yellowgreen'},
-                whiskerprops = {'color' : 'saddlebrown'},
-                capprops = {'color': "yellowgreen"},
-                flierprops = {'marker' : 'o', 'color' : 'red', 'markersize' : 2},
-                medianprops = {'color': "white", 'linewidth' : 2})
-    axes[2].set_title('Distrib. tirs réussis sur la largeur X', fontdict=title_font)
-    axes[2].tick_params(axis='both', labelsize=6)
-    axes[2].set_xlabel('X Location', fontsize=7)  
-    axes[2].set_ylabel('Y Location', fontsize=7)
-    
-    sns.boxplot(ax=axes[3], data=scored['Y Location'], orient='v',
-                boxprops = {'color' :'yellowgreen'},
-                whiskerprops = {'color' : 'saddlebrown'},
-                capprops = {'color': "yellowgreen"},
-                flierprops = {'marker' : 'o', 'color' : 'red', 'markersize' : 2},
-                medianprops = {'color': "white", 'linewidth' : 2})
-    axes[3].set_title('Distrib. tirs réussis sur la longueur Y', fontdict=title_font)
-    axes[3].tick_params(axis='both', labelsize=6)
-    axes[3].set_xlabel('X Location', fontsize=7)  
-    axes[3].set_ylabel('Y Location', fontsize=7)
-    
-    plt.subplots_adjust(wspace=.6, hspace=.4)
-    st.pyplot(fig, use_container_width=False)
-
-
-@st.cache_data
-def display_shot_zones(df):
-
-    legend_params = {
-        'markerscale': 2.5,
-        'fontsize': 5,
-        'title_fontproperties': {'weight': 'bold', 'size': '5'}
-    }
-
-    fig = plt.figure(figsize=(5, 2.5))
-    plt.subplot(131)
-    for name, group in df.groupby('Shot Zone Basic'):
-        plt.plot(group['X Location'], group['Y Location'], marker='o', linestyle='', ms=1, label=name)
-
-    plt.legend(**legend_params, title="Shot zone basic")
-    plt.xlabel('X Location', fontsize=5)
-    plt.ylabel('Y Location', fontsize=5)
-    plt.xticks(fontsize=5)
-    plt.yticks(fontsize=5)
-
-    plt.subplot(132)
-    for name, group in df.groupby('Shot Zone Area'):
-        plt.plot(group['X Location'], group['Y Location'], marker='o', linestyle='', ms=1, label=name)
-    plt.legend(**legend_params, title="Shot zone area")
-    plt.xlabel('X Location', fontsize=5)
-    plt.ylabel('Y Location', fontsize=5)
-    plt.xticks(fontsize=5)
-    plt.yticks(fontsize=5)
-
-    plt.subplot(133)
-    for name, group in df.groupby('Shot Zone Range'):
-        plt.plot(group['X Location'], group['Y Location'], marker='o', linestyle='', ms=1, label=name)
-    plt.legend(**legend_params, title="Shot zone range")
-    plt.xlabel('X Location', fontsize=5)
-    plt.ylabel('Y Location', fontsize=5)
-    plt.xticks(fontsize=5)
-    plt.yticks(fontsize=5)
-
-    st.pyplot(fig, use_container_width=False)
-
-@st.cache_data
-def scatter_global_shotZones(zones_df):
-    # Nuage de points pour les zones globales
-
-    print("\033[1m" + "Répartition des tirs réussis et manqués sur le terrain" + "\033[0;0m")
-    fig, axes = plt.subplots(1, 3, figsize=(10, 4))
-    axes = axes.flatten()
-    
-    # Boucle sur les DataFrames de shots_df et création d'un scatter pour chacun
-    scatters = []
-    for axe, (key, df) in zip(axes, zones_df.items()):
-        # Création d'une cmap pour personnaliser les couleurs des points
-        cmap = LinearSegmentedColormap.from_list('custom_cmap', colors = ['lightsteelblue', 'limegreen'], N=2)
-        
-        # Création du scatter plot pour chaque DataFrame
-        scatter = axe.scatter(df['X Location'], df['Y Location'], s=.3, c=df['Shot Made Flag'], cmap=cmap)
-        axe.set_title(key, fontsize=7)
-        axe.set_ylim(-50,900)
-        axe.set_xlabel('X Location', fontsize=5)
-        axe.set_ylabel('Y Location', fontsize=5)
-        axe.tick_params(axis='both', labelsize=6) 
-        scatters.append(scatter)
-    fig.tight_layout(pad=2)
-
-        # Création d'une colorbar partagée par les 3 scatter
-    cbar = fig.colorbar(scatters[0], ax=axes, orientation='vertical')
-    cbar.set_ticks([0, 1]) 
-    cbar.set_ticklabels(['Tir manqué', 'Tir réussi'])
-    cbar.ax.tick_params(labelsize=6) 
-
-    st.pyplot(fig, use_container_width=False)
