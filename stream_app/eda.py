@@ -29,7 +29,7 @@ def main():
   )
 
 
-  shots = pd.read_csv('_DATAS/NBA Shot Locations 1997 - 2020.csv')
+  shots = pd.read_csv('_DATAS/filtered_shots_locations.csv')
   actions = pd.read_csv('_PRE_PRO_DATAS/actions_full.csv')
 
   with st.expander("Voir un extrait du jeu de données NBA Shot Locations 1997 - 2020"):

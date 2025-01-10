@@ -30,21 +30,21 @@ def init_zones_analytics():
     # - création des dataframes par joueur et par zone
 
     # Fichier csv à charger
-    file = '_DATAS/NBA Shot Locations 1997 - 2020.csv'
+    df = pd.read_csv('_DATAS/filtered_shots_locations.csv')
     
     # Liste des joueurs à conserver
     top20 = ['Giannis Antetokounmpo', 'Stephen Curry', 'LeBron James', 'Kevin Durant', 'Anthony Davis', 'Paul George', 'Kawhi Leonard', 'Damian Lillard', 'Kyrie Irving', 'Jimmy Butler', 'Rudy Gobert', 'Jrue Holiday', 'James Harden', 'DeMar DeRozan', 'Kentavious Caldwell-Pope', 'Khris Middleton', 'Draymond Green', 'Bradley Beal', 'Klay Thompson', 'Jonas Valanciunas']
     top20 = [x.upper() for x in top20]
 
     # Liste des variables à supprimer
-    drop_var = ['Team ID', 'Team Name', 'Season Type', 'Away Team', 'Home Team']
+    #drop_var = ['Team ID', 'Team Name', 'Season Type', 'Away Team', 'Home Team']
 
     
-    df = top_players_dataframe(file = file, 
-                               col_filter = 'Player Name', 
-                               list_players = top20, 
-                               index = 'Player ID', 
-                               drop_var = drop_var)
+    #df = top_players_dataframe(file = file, 
+    #                           col_filter = 'Player Name', 
+     #                          list_players = top20, 
+      #                         index = 'Player ID', 
+       #                        drop_var = drop_var)
     
     players_df = df_per_player(df=df)
 
@@ -288,7 +288,7 @@ def plotly_playerZones(players_df):
     cols = 5
     rows = (num_plots // cols) + (1 if num_plots % cols > 0 else 0)
 
-    width = 300 * cols  # Largeur (ajuster par rapport au nombre de colonnes)
+    width = 300 * cols 
     height = 300 * rows
     
     # Créer la figure avec le nombre de sous-graphiques adapté
@@ -314,7 +314,6 @@ def plotly_playerZones(players_df):
                     size=3,
                     color=df['Shot Made Flag'],  
                     colorscale=['lightsteelblue', 'limegreen'],                    
-                    #colorbar=dict(title='Shot Made Flag', tickvals=[0, 1], ticktext=['Tir manqué', 'Tir réussi']) if i == 1 else None
                 ),
                 name=key,
                 hoverinfo='x+y+text',
@@ -329,7 +328,7 @@ def plotly_playerZones(players_df):
         showlegend=False,
         plot_bgcolor='white',
         paper_bgcolor='white',
-        height=height,  # Hauteur dynamique
+        height=height, 
         width=1200
     )
     for i in range(1, num_plots + 1):
