@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler
 from src.classification import *
 
 # Fichier de données
-data_file = '_PRE_PRO_DATAS/df_one_hot_encoded.csv'
+data_file = '_PRE_PRO_DATAS/df_half_size.csv'
 
 # Liste des modèles
 models = ['Régression logistique', 'Arbre de décision', 'Random Forest',\
@@ -254,15 +254,17 @@ def draw_plotly_court(fig, fig_width=600, margins=10):
 #####################################
 
 def main():
+  st.cache_data.clear()
 
   # Lecture du fichier CSV
   df = read_file(data_file)
-  
+
   # Modifications de styles
   css="""
     <style> 
     .block-container {padding-top: 0px; padding-bottom: 0px; padding-left: 20px; padding-right: 0px}
     .st-ct > div {background-color: #fff}
+    .st-dg > div {background-color: #fff}
     div[data-testid="stMarkdownContainer"] {font-size: 16px}
     </style>
   """
@@ -365,3 +367,5 @@ def main():
       st.plotly_chart(build_fig(m2_preds[m2_preds.result == 0], label='accuracy'), key='fig5')
       st.write("Taux de prédictions correctes pour les tirs réussis :")
       st.plotly_chart(build_fig(m2_preds[m2_preds.result == 1], label='accuracy'), key='fig6')
+
+  st.cache_data.clear()
