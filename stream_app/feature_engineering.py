@@ -135,7 +135,7 @@ def main() :
     """
   )
   
-  df = pd.read_csv('../_PRE_PRO_DATAS/merged.csv', index_col=0)
+  df = pd.read_csv('_PRE_PRO_DATAS/merged.csv', index_col=0)
   rows, cols = df.shape
   with st.expander("Voir un extrait du jeu de données"):
     st.write(f"Le dataframe contient {rows} lignes et {cols} colonnes.")

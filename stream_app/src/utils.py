@@ -30,7 +30,7 @@ def init_zones_analytics():
     # - création des dataframes par joueur et par zone
 
     # Fichier csv à charger
-    file = '../_DATAS/NBA Shot Locations 1997 - 2020.csv'
+    file = '_DATAS/NBA Shot Locations 1997 - 2020.csv'
     
     # Liste des joueurs à conserver
     top20 = ['Giannis Antetokounmpo', 'Stephen Curry', 'LeBron James', 'Kevin Durant', 'Anthony Davis', 'Paul George', 'Kawhi Leonard', 'Damian Lillard', 'Kyrie Irving', 'Jimmy Butler', 'Rudy Gobert', 'Jrue Holiday', 'James Harden', 'DeMar DeRozan', 'Kentavious Caldwell-Pope', 'Khris Middleton', 'Draymond Green', 'Bradley Beal', 'Klay Thompson', 'Jonas Valanciunas']
@@ -621,7 +621,7 @@ def time_left_viz(fg):
 
 @st.cache_data
 def nb_shots_per_player():
-    df = pd.read_csv('../_PRE_PRO_DATAS/games_details.csv', low_memory=False)
+    df = pd.read_csv('_PRE_PRO_DATAS/games_details.csv', low_memory=False)
     df['PLAYER_NAME'] = df['PLAYER_NAME'].str.upper()
     top20 = ['Giannis Antetokounmpo', 'Stephen Curry', 'LeBron James', 'Kevin Durant', 'Anthony Davis', 
              'Paul George', 'Kawhi Leonard', 'Damian Lillard', 'Kyrie Irving', 'Jimmy Butler', 

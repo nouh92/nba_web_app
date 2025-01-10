@@ -3,9 +3,14 @@ import os
 
 
 def main():
+  col1, col2, col3 = st.columns(3, vertical_alignment='center')
 
-  
-
+  with col1:
+    st.image('datascientest_logo.png', use_container_width=True)    
+  with col2:
+    st.image("NBA-img.jpg")
+  with col3:
+    st.image("kaggle_logo.png", output_format='PNG')
 
   
   st.title('Analyse des tirs de joueurs NBA')

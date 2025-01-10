@@ -25,8 +25,8 @@ sns.set_style('white')
 # Initalisation d'un dataframe retravaillé pour le dashboard
 @st.cache_data
 def set_dataframe():
-    shots = pd.read_csv('../_PRE_PRO_DATAS/shots_pre-processed.csv')
-    actions = pd.read_csv('../_PRE_PRO_DATAS/actions_full.csv')
+    shots = pd.read_csv('_PRE_PRO_DATAS/shots_pre-processed.csv')
+    actions = pd.read_csv('_PRE_PRO_DATAS/actions_full.csv')
     # Suppression des actions absentes du dataset des tirs
     unmatch = actions[~actions.index.isin(shots.index)]
     actions_filtered = actions[~actions.index.isin(unmatch.index)]
@@ -41,7 +41,7 @@ def set_dataframe():
     df = shots.merge(actions_filtered, left_index=True, right_index=True, how='inner')
     df.index.name = None
     
-    rankings = pd.read_csv('../_DATAS/ranking.csv')
+    rankings = pd.read_csv('_DATAS/ranking.csv')
     
     # Pourcentage de victoires de l'équipe du joueur à la veille du match
     # Il s'agit du pourcentage depuis le début de la saison (égal à 0 en début de saison)
