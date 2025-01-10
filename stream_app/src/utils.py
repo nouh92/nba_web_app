@@ -482,60 +482,43 @@ def success_rate_per_year(players_dict):
 
 @st.cache_data
 def plotly_display_shot_zones(df, zone_var='Shot Zone Basic'):
-    df=df.sample(10000)
-    # Vérification
+    df = df.sample(10000)
+    
+    # Vérification des colonnes
     if df is None or zone_var not in df.columns or 'X Location' not in df.columns or 'Y Location' not in df.columns:
         raise ValueError("Le paramètre zone_var doit contenir les colonnes 'Shot Zone Basic', 'Shot Zone Area' ou 'Shot Zone Range'.")
 
-    default_colors = [
-      'paleturquoise', 'lightcoral', 'lime','thistle', 'lemonchiffon', 'lightsteelblue', 'peachpuff'
-    ]
+    # Vérification du type de données
+    if not pd.api.types.is_string_dtype(df[zone_var]):
+        raise ValueError(f"La colonne {zone_var} doit être de type chaîne de caractères.")
 
+    # Création de la figure
+    default_colors = ['paleturquoise', 'lightcoral', 'lime', 'thistle', 'lemonchiffon', 'lightsteelblue', 'peachpuff']
     unique_zones = df[zone_var].unique()
+    dynamic_colors = {zone: default_colors[i % len(default_colors)] for i, zone in enumerate(unique_zones)}
 
-    dynamic_colors = {}
-    for i, zone in enumerate(unique_zones):
-        dynamic_colors[zone] = default_colors[i % len(default_colors)] 
-
-    # Créer une figure vide
     fig = go.Figure()
-
-    # Ajouter des traces pour chaque groupe de zones
     for name, group in df.groupby(zone_var):
         color = dynamic_colors[name]
         fig.add_trace(go.Scatter(
             x=group['X Location'],
             y=group['Y Location'],
-            mode='markers',  
-            marker=dict(size=3,color=color),
+            mode='markers',
+            marker=dict(size=3, color=color),
             name=name
         ))
 
-        legend=dict(
-            title=dict(text=zone_var, font=dict(size=12)),
-            font=dict(size=10),
-            marker=dict(size=10),
-            itemsizing='constant'
-        ),
-
-        fig.update_layout(
+    fig.update_layout(
         title=f"Par {zone_var}",
-        xaxis=dict(
-            title='X Location', 
-        ),
-        yaxis=dict(
-            title='Y Location',  
-        ),
-        plot_bgcolor='white', 
-        paper_bgcolor='white', 
-        width=600, 
-        height=500 
+        xaxis=dict(title='X Location'),
+        yaxis=dict(title='Y Location'),
+        plot_bgcolor='white',
+        paper_bgcolor='white',
+        width=600,
+        height=500
     )
 
-    
-
-    # Afficher le graphique
-    return(fig)
+    return fig
 
 
 @st.cache_data
