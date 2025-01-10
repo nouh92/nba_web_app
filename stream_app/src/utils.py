@@ -811,7 +811,6 @@ def subsetting(model, X_train, X_test):
 ## FONCTIONS POUR SHAP ##
 #------------------------------------------------------------------------------------------------------------------------------------
 
-shap.initjs()
 
 @st.cache_data
 def SHAP_explanations(_model, X_train, X_test, preds, feature_names, explainer_type='TreeExplainer'):

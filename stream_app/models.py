@@ -230,7 +230,7 @@ def main():
 
 
     st.subheader("III. Interprétation du modèle eXtreme Gradient Boost avec SHAP")
-    shap.initjs()
+ 
    
     _explanation, explanation_obj, shap_values, base_value = SHAP_explanations(_model = xgb_model, 
                                                                 X_train = X_train,
