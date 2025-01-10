@@ -15,7 +15,7 @@ from sklearn.metrics import classification_report
 
 from tensorflow.keras import callbacks, Sequential
 from tensorflow.keras.layers import Input, Dense, Dropout, ReLU
-from tensorflow.keras.models import Model, load_model
+
 
 from src.merge_and_encode import *
 
