@@ -60,7 +60,7 @@ players = {2544 : 'LeBron James',
 
 @st.cache_data
 def read_file(data_file):
-    return pd.read_csv(data_file, index_col=0)
+  return pd.read_csv(data_file, index_col=0)
 
 
 #####################################
@@ -256,9 +256,6 @@ def draw_plotly_court(fig, fig_width=600, margins=10):
 def main():
   st.cache_data.clear()
 
-  # Lecture du fichier CSV
-  df = read_file(data_file)
-
   # Modifications de styles
   css="""
     <style> 
@@ -329,6 +326,7 @@ def main():
 
   # Lancement des classifications
   if result & (player != None) & (m1 != None) :
+    df = read_file(data_file)
     m1_preds, m1_accuracy, m1_f1_0, m1_f1_1 = \
       launch_classification(df, player, m1, m1_p1, m1_p2, m1_p3, m1_p4)
     m2_accuracy, m2_f1_0, m2_f1_1 = m1_accuracy, m1_f1_0, m1_f1_1
