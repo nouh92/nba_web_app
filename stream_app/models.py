@@ -23,7 +23,7 @@ from src.utils import *
 from src.classification import *
 from src.merge_and_encode import *
 
-
+print(f"Current Working Directory: {os.getcwd()}")
 
 def apply_custom_styles():
     st.markdown("""
@@ -75,7 +75,7 @@ def main():
         """
     )
 
-    df = pd.read_csv('../_PRE_PRO_DATAS/merged.csv', index_col=0).sort_index()
+    df = pd.read_csv('_PRE_PRO_DATAS/merged.csv', index_col=0).sort_index()
 
     with st.expander("Nouveaux tests Khi2 sur les variables catégorielles"):
         var_list = ['shotZoneBasic', 'shotZoneArea', 'shotZoneRange', 'player', 'previousEvent', 'shotType']
@@ -97,7 +97,7 @@ def main():
 
     
     # Chargement du datasets encodé avec OneHotEncoder
-    df = pd.read_csv('../_PRE_PRO_DATAS/df_one_hot_encoded.csv', index_col=0)
+    df = pd.read_csv('_PRE_PRO_DATAS/df_one_hot_encoded.csv', index_col=0)
     # Encodage avec StandatdScaler et séparation des données
     X, y, X_train, X_test, y_train, y_test, feature_names = setting_scaling_dataframes(df)
     rows, cols = df.shape
@@ -230,7 +230,7 @@ def main():
 
 
     st.subheader("III. Interprétation du modèle eXtreme Gradient Boost avec SHAP")
-    shap.initjs()
+ 
    
     _explanation, explanation_obj, shap_values, base_value = SHAP_explanations(_model = xgb_model, 
                                                                 X_train = X_train,

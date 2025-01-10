@@ -29,8 +29,8 @@ def main():
   )
 
 
-  shots = pd.read_csv('../_DATAS/NBA Shot Locations 1997 - 2020.csv')
-  actions = pd.read_csv('../_PRE_PRO_DATAS/actions_full.csv')
+  shots = pd.read_csv('_DATAS/NBA Shot Locations 1997 - 2020.csv')
+  actions = pd.read_csv('_PRE_PRO_DATAS/actions_full.csv')
 
   with st.expander("Voir un extrait du jeu de données NBA Shot Locations 1997 - 2020"):
     st.dataframe(
@@ -194,7 +194,7 @@ def main():
     """
   )
 
-  actions = pd.read_csv('../_PRE_PRO_DATAS/actions_full.csv', index_col=0)
+  actions = pd.read_csv('_PRE_PRO_DATAS/actions_full.csv', index_col=0)
   time_left_viz(actions)
 
 

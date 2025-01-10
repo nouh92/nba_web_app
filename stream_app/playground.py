@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler
 from src.classification import *
 
 # Fichier de données
-data_file = '../_PRE_PRO_DATAS/df_one_hot_encoded.csv'
+data_file = '_PRE_PRO_DATAS/df_one_hot_encoded.csv'
 
 # Liste des modèles
 models = ['Régression logistique', 'Arbre de décision', 'Random Forest',\

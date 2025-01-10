@@ -4,8 +4,20 @@ import os
 
 def main():
 
-  
+  logo_datascientest = os.path.abspath('datascientest_logo.png')
+  logo_nba = os.path.abspath('NBA-img.jpg')
+  logo_kaggle = os.path.abspath('kaggle_logo.png')
 
+  col1, col2, col3 = st.columns(3, vertical_alignment='center')
+
+  col1, col2, col3 = st.columns(3, vertical_alignment='center')
+
+  with col1:
+      st.image(logo_datascientest, output_format='PNG')    
+  with col2:
+      st.image(logo_nba)
+  with col3:
+      st.image(logo_kaggle, output_format='PNG')
 
   
   st.title('Analyse des tirs de joueurs NBA')
