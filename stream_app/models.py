@@ -230,7 +230,28 @@ def main():
 
 
     st.subheader("III. Interprétation du modèle eXtreme Gradient Boost avec SHAP")
- 
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.image('img/SHAP_summary_10.png', output_format='PNG')   
+
+    with col2:
+        st.image('img/SHAP_summary_15.png', output_format='PNG')
+    
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.image('img/SHAP_waterfall_1.png', output_format='PNG')   
+
+    with col2:
+        st.image('img/SHAP_waterfall_5.png', output_format='PNG')
+    
+    with col3:
+        st.image('img/SHAP_waterfall_18.png', output_format='PNG')
+    
+
+""" 
    
     _explanation, shap_values = SHAP_explanations(_model = xgb_model, 
                                                                 X_train = X_train,
@@ -265,4 +286,4 @@ def main():
         st.pyplot(fig)
 
 
-    
+"""
