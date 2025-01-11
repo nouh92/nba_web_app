@@ -1,25 +1,3 @@
-_PRE_PRO_DATAS/
-*.joblib
-*.h5
-
 __pycache__/
 *.pyc
-
-fichier non suivi
-_DATAS/filtered_shots_locations.csv
-_DATAS/ranking.csv
-_DATAS/filtered_shots_locations.csv
-_PRE_PRO_DATAS/df_half_size.csv 
-_PRE_PRO_DATAS/actions_full.csv
-_PRE_PRO_DATAS/df_one_hot_encoded.csv
-_PRE_PRO_DATAS/merged.csv
-_PRE_PRO_DATAS/shots_pre-processed.csv
-models_saved/dt_model.joblib
-models_saved/lr_model.joblib
-models_saved/rf_model.joblib
-models_saved/xgb_model.joblib
-
-
-dossier non suivi
 .ipynb_checkpoints/
-
