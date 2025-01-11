@@ -107,23 +107,7 @@ def main():
     
     
     st.subheader('II. Machine Learning')
-    # Tableau qui contient les scores des classifieurs
-    scores = pd.DataFrame(columns=["Classifieur", "Dataset", "Accuracy", \
-                                "F1-score (classe négative)", "F1-score (classe positive)"])
     
-    # Affichage des scores des classifieurs
-    def display_scores(model, accuracy, f1_0, f1_1):
-        st.markdown(f"""
-        <h4 style='text-align: center; background-color: #1D428A; color: white;'>{model}</h4>
-        <p style='text-align: center;'>Précision du modèle</p>
-        <p style='text-align: center; color:#4CAF50;'>{accuracy}</p>
-        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
-        <p style='text-align: center;'>f1 score sur la classe 0</p>
-        <p style='text-align: center; color:#4CAF50;'>{f1_0}</p>
-        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
-        <p style='text-align: center;'>f1 score sur la classe 1</p>
-        <p style='text-align: center; color:#4CAF50;'>{f1_1}</p>
-        """, unsafe_allow_html=True)
     
     col1, col2, col3, col4, col5 = st.columns(5, border=True)
 
@@ -134,18 +118,20 @@ def main():
         
         Logistique"""
 
-        model_path = 'models_saved/lr_model.joblib'
+        st.markdown(f"""
+        <h4 style='text-align: center; background-color: #1D428A; color: white;'>{model}</h4>
+        <p style='text-align: center;'>Précision du modèle</p>
+        <p style='text-align: center; color:#4CAF50;'>0.647</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 0</p>
+        <p style='text-align: center; color:#4CAF50;'>0.697</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 1</p>
+        <p style='text-align: center; color:#4CAF50;'>0.577</p>
+        """, unsafe_allow_html=True)
 
-        if os.path.exists(model_path):
-            lr_model = load(model_path)
-            lr_preds = lr_model.predict(X_test)
-        else:
-            print(f"Le modèle n'existe pas. Entraînement d'un nouveau modèle...")
-            lr_model, lr_preds = lr_classification(X_train, X_test, y_train, C=.1, solver='liblinear', save=True)
 
-        report, accuracy, f1_0, f1_1 = classification_scores(y_test, lr_preds)
-        scores.loc[0] = ["Régression logistique", "Dataset complet", accuracy, f1_0, f1_1]
-        display_scores(model, accuracy, f1_0, f1_1)
+
 
     with col2:
         model = """
@@ -155,78 +141,69 @@ def main():
 
         model_path = 'models_saved/dt_model.joblib'
 
-        if os.path.exists(model_path):
-            dt_model = load(model_path)
-            dt_preds = dt_model.predict(X_test)
-        else:
-            print(f"Le modèle n'existe pas. Entraînement d'un nouveau modèle...")
-            dt_model, dt_preds = dt_classification(X_train, X_test, y_train, max_depth=11, random_state=123, save=True)
-        
-        report, accuracy, f1_0, f1_1 = classification_scores(y_test, dt_preds)
-        scores.loc[1] = ["Arbre de décision", "Dataset complet", accuracy, f1_0, f1_1]
-        display_scores(model, accuracy, f1_0, f1_1)
+        st.markdown(f"""
+        <h4 style='text-align: center; background-color: #1D428A; color: white;'>{model}</h4>
+        <p style='text-align: center;'>Précision du modèle</p>
+        <p style='text-align: center; color:#4CAF50;'>0.645</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 0</p>
+        <p style='text-align: center; color:#4CAF50;'>0.715</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 1</p>
+        <p style='text-align: center; color:#4CAF50;'>0.529</p>
+        """, unsafe_allow_html=True)
 
     with col3: 
         model = """
         Random
 
         Forest"""
-        
-        model_path = 'models_saved/rf_model.joblib'
 
-        if os.path.exists(model_path):
-            rf_model = load(model_path)
-            rf_preds = rf_model.predict(X_test)
-        else:
-            print(f"Le modèle n'existe pas. Entraînement d'un nouveau modèle...")
-            rf_model, rf_preds = rf_classification(X_train, X_test, y_train, n_jobs=-1, n_estimators=300, max_depth=20, random_state=123, save=True)
-
-        report, accuracy, f1_0, f1_1 = classification_scores(y_test, rf_preds)
-        scores.loc[2] = ["Random Forest", "Dataset complet", accuracy, f1_0, f1_1]
-        display_scores(model, accuracy, f1_0, f1_1)
+        st.markdown(f"""
+        <h4 style='text-align: center; background-color: #1D428A; color: white;'>{model}</h4>
+        <p style='text-align: center;'>Précision du modèle</p>
+        <p style='text-align: center; color:#4CAF50;'>0.656</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 0</p>
+        <p style='text-align: center; color:#4CAF50;'>0.709</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 1</p>
+        <p style='text-align: center; color:#4CAF50;'>0.579</p>
+        """, unsafe_allow_html=True)
 
     with col4:
         model = """
         eXtreme 
         
         Gradient Boost"""
-        
-        model_path = 'models_saved/xgb_model.joblib'
-
-        if os.path.exists(model_path):
-            # Charger le modèle
-            xgb_model = load(model_path)
-            xgb_preds = xgb_model.predict(X_test)
-        else:
-            print(f"Le modèle n'existe pas. Entraînement d'un nouveau modèle...")
-            xgb_model, xgb_preds = xgb_classification(X_train, X_test, y_train, max_depth=9, eta=.1, min_child_weight=4, gamma=.05, save=True)
-
-        report, accuracy, f1_0, f1_1 = classification_scores(y_test, xgb_preds)
-        scores.loc[3] = ["XGBoost", "Dataset complet", accuracy, f1_0, f1_1]
-        display_scores(model, accuracy, f1_0, f1_1)
+        st.markdown(f"""
+        <h4 style='text-align: center; background-color: #1D428A; color: white;'>{model}</h4>
+        <p style='text-align: center;'>Précision du modèle</p>
+        <p style='text-align: center; color:#4CAF50;'>0.661</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 0</p>
+        <p style='text-align: center; color:#4CAF50;'>0.712</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 1</p>
+        <p style='text-align: center; color:#4CAF50;'>0.586</p>
+        """, unsafe_allow_html=True)
 
     with col5:
         model = """
         Deep 
         
         Neural Network"""
-
-        model_path = 'models_saved/dnn_model.h5'
-
-        if os.path.exists(model_path):
-            # Charger le modèle
-            dnn_model = load_model(model_path, compile=False)
-            dnn_probs = dnn_model.predict(X_test)
-            dnn_preds = (dnn_probs > .473).astype(int).flatten()
-
-        else:
-            print(f"Le modèle n'existe pas. Entraînement d'un nouveau modèle...")
-            dnn_model, dnn_preds = dnn_classification(X_train, X_test, y_train, save=True)
-
-        report, accuracy, f1_0, f1_1 = classification_scores(y_test, dnn_preds)
-        scores.loc[4] = ["DNN", "Dataset complet", accuracy, f1_0, f1_1]
-
-        display_scores(model, accuracy, f1_0, f1_1)
+        st.markdown(f"""
+        <h4 style='text-align: center; background-color: #1D428A; color: white;'>{model}</h4>
+        <p style='text-align: center;'>Précision du modèle</p>
+        <p style='text-align: center; color:#4CAF50;'>0.658</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 0</p>
+        <p style='text-align: center; color:#4CAF50;'>0.702</p>
+        <hr style="border: 1px solid #cccccc; margin: 20px 0;"> 
+        <p style='text-align: center;'>f1 score sur la classe 1</p>
+        <p style='text-align: center; color:#4CAF50;'>0.599</p>
+        """, unsafe_allow_html=True)
 
 
     st.subheader("III. Interprétation du modèle eXtreme Gradient Boost avec SHAP")
