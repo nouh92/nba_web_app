@@ -1,3 +1,2 @@
-*.csv filter=lfs diff=lfs merge=lfs -text
-*.joblib filter=lfs diff=lfs merge=lfs -text
-filtered_shots_locations.csv filter=lfs diff=lfs merge=lfs -text
+games_details.csv filter=lfs diff=lfs merge=lfs -text
+rf_model.joblib filter=lfs diff=lfs merge=lfs -text
