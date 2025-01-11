@@ -16,3 +16,6 @@ models_saved/dt_model.joblib
 models_saved/lr_model.joblib
 models_saved/rf_model.joblib
 models_saved/xgb_model.joblib
+
+dossier non suivi
+.ipynb_checkpoints/
