@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler
 from src.classification import *
 
 # Fichier de données
-data_file = '_PRE_PRO_DATAS/df_half_size.csv'
+data_file = '_PRE_PRO_DATAS/df_quarter_size.csv'
 
 # Liste des modèles
 models = ['Régression logistique', 'Arbre de décision', 'Random Forest',\
@@ -58,7 +58,6 @@ players = {2544 : 'LeBron James',
 # Lecture du fichier CSV
 #####################################
 
-@st.cache_data
 def read_file(data_file):
   return pd.read_csv(data_file, index_col=0)
 
@@ -142,16 +141,29 @@ def set_colors(m1_accuracy, m1_f1_0, m1_f1_1, m2_accuracy=0, m2_f1_0=0, m2_f1_1=
 
 
 #####################################
-# Construction du graphique
+# Arrondis pour Xloc et Yloc
 #####################################
 
-def build_fig(df, label='target', step=15):
-
+def round_loc(row):
   # Les coordonnées X et Y sont exprimées en dixièmes de pieds, soit environ 3 centimètres
   # En arrondissant avec la variable "step", on réduit la granularité
   # Par exemple, si step = 10, l'unité devient 10 * 0.1 pied = 1 pied = 30 centimètres
-  df['Xloc'] =  df.apply(lambda x: step*round(x['Xloc']/step), axis=1)
-  df['Yloc'] =  df.apply(lambda x: step*round(x['Yloc']/step), axis=1)
+  step = 10 if row['shotZoneBasic_Restricted Area'] == 1 else 20
+  row['Xloc'], row['Yloc'] = row.Xloc//step*step, row.Yloc//step*step
+  return row
+
+
+#####################################
+# Construction du graphique
+#####################################
+
+def build_fig(df, label='target'):
+
+  # On arrondit Xloc et Yloc
+  df = df.apply(round_loc, axis = 1)
+
+  # Coefficient de réduction pour les joueurs les plus anciens
+  coeff = .7 if df.year_2007.max() == 1 else .8
 
   # Moyenne et somme de la variable cible pour chaque coordonnée
   df = df.groupby(['Xloc', 'Yloc']).agg({'target':['mean', 'count']}).\
@@ -162,8 +174,7 @@ def build_fig(df, label='target', step=15):
   df[label] = df.apply(lambda x: round(x[label], 2), axis=1)
 
   # Taille des points (règle de calcul à ajuster en fonction du rendu souhaité)
-  coeff = .7 if df['count'].max() < 500 else .6
-  df['scaled'] = df.apply(lambda x: 3*x['count']**coeff, axis=1)
+  df['scaled'] = df.apply(lambda x: 5*x['count']**coeff, axis=1)
 
   # Affichage des données
   fig = px.scatter(df, x='Xloc', y='Yloc',
@@ -177,7 +188,6 @@ def build_fig(df, label='target', step=15):
   fig.update_xaxes(title_text="")
   fig.update_yaxes(title_text="")
   fig.update_traces(marker=dict(line={'width':0.2}, size=df['scaled']))
-  fig.update_layout(scattermode="group")
 
   return fig
 

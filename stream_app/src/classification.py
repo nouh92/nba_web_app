@@ -22,7 +22,6 @@ from src.merge_and_encode import *
 from joblib import dump
 
 
-@st.cache_data
 def lr_classification(X_train, X_test, y_train, C=1, solver='lbfgs', save=False):
 
     lr_model = LogisticRegression(C=C, solver=solver)
@@ -34,7 +33,6 @@ def lr_classification(X_train, X_test, y_train, C=1, solver='lbfgs', save=False)
 
     return lr_model, lr_preds
 
-@st.cache_data
 def dt_classification(X_train, X_test, y_train, max_depth=None, random_state=None, save=False):
 
     dt_model = DecisionTreeClassifier(max_depth=max_depth, random_state=random_state)
@@ -46,7 +44,6 @@ def dt_classification(X_train, X_test, y_train, max_depth=None, random_state=Non
     
     return dt_model, dt_preds
 
-@st.cache_data
 def rf_classification(X_train, X_test, y_train, n_jobs=None, n_estimators=100, max_depth=None, random_state=None, save=False):
 
     rf_model = RandomForestClassifier(n_jobs=n_jobs, n_estimators=n_estimators,max_depth=max_depth, random_state=random_state)
@@ -58,13 +55,12 @@ def rf_classification(X_train, X_test, y_train, n_jobs=None, n_estimators=100, m
 
     return rf_model, rf_preds
 
-@st.cache_data
 def xgb_classification(X_train, X_test, y_train, max_depth=0, eta=0, min_child_weight=0, gamma=0, save=False):
     
     if max_depth > 0:
-        xgb_model = XGBClassifier(max_depth=max_depth, eta=eta, min_child_weight=min_child_weight, gamma=gamma)
+        xgb_model = XGBClassifier(n_jobs=-1, max_depth=max_depth, eta=eta, min_child_weight=min_child_weight, gamma=gamma)
     else:
-        xgb_model = XGBClassifier()
+        xgb_model = XGBClassifier(n_jobs=-1)
     
     xgb_model.fit(X_train, y_train)
     xgb_preds = xgb_model.predict(X_test)
@@ -74,7 +70,6 @@ def xgb_classification(X_train, X_test, y_train, max_depth=0, eta=0, min_child_w
     
     return xgb_model, xgb_preds
 
-@st.cache_data
 def dnn_classification(X_train, X_test, y_train, save=False):
     # Transformation en tableaux numpy, plus adapté pour le deep learning et pour SHAP ensuite
     X_train_array = X_train.to_numpy()
@@ -116,7 +111,6 @@ def dnn_classification(X_train, X_test, y_train, save=False):
     
     return dnn_model, dnn_preds
 
-@st.cache_data
 def classification_scores(y_test, y_preds):
     
     report = classification_report(y_test, y_preds, digits=3, output_dict=True)
