@@ -19,6 +19,8 @@ from src.merge_and_encode import *
 
 
 def main():
+  st.cache_data.clear()
+  
   st.title('Exploratory Data Analysis (EDA)')
   st.write(
     """
@@ -271,5 +273,5 @@ def main():
 """)
   
   success_rate_per_year(players_df)
-  
 
+  st.cache_data.clear()
