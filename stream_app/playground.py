@@ -294,7 +294,7 @@ def main():
       m1_p2 = m1_c3.selectbox('random_state', options=random_state, index=1, key='dt1_1')
   if m1 == models[2]:
       m1_p2 = m1_c2.selectbox('n_estimators', options=rf_estimators, index=3, key='rf1_0')
-      m1_p3 = m1_c3.selectbox('max_depth', options=rf_max_depth, index=2, key='rf1_1')
+      m1_p3 = m1_c3.selectbox('max_depth', options=rf_max_depth, index=0, key='rf1_1')
       m1_p4 = m1_c4.selectbox('random_state', options=random_state, index=1, key='rf1_2')
   if m1 == models[3]:
       m1_p1 = m1_c2.selectbox('max_depth', options=xgb_max_depth, index=1, key='xgb1_0')
