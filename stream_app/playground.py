@@ -148,7 +148,7 @@ def round_loc(row):
   # Les coordonnées X et Y sont exprimées en dixièmes de pieds, soit environ 3 centimètres
   # En arrondissant avec la variable "step", on réduit la granularité
   # Par exemple, si step = 10, l'unité devient 10 * 0.1 pied = 1 pied = 30 centimètres
-  step = 10 if row['shotZoneBasic_Restricted Area'] == 1 else 20
+  step = 10 if row['shotZoneBasic_Restricted Area'] == 1 else 15
   row['Xloc'], row['Yloc'] = row.Xloc//step*step, row.Yloc//step*step
   return row
 
