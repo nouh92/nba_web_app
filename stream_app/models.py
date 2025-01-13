@@ -97,9 +97,10 @@ def main():
 
     
     # Chargement du datasets encodé avec OneHotEncoder
-    df = pd.read_csv('_PRE_PRO_DATAS/df_one_hot_encoded.csv', index_col=0)
+    # df = pd.read_csv('_PRE_PRO_DATAS/df_one_hot_encoded.csv', index_col=0)
     # Encodage avec StandatdScaler et séparation des données
-    X, y, X_train, X_test, y_train, y_test, feature_names = setting_scaling_dataframes(df)
+    # X, y, X_train, X_test, y_train, y_test, feature_names = setting_scaling_dataframes(df)
+    X_train = pd.read_csv('_PRE_PRO_DATAS/X_train.csv', index_col=0)
     rows, cols = df.shape
     with st.expander("Voir un extrait des données d'entraînement encodées"):
         st.write(f"Le dataframe contient {rows} lignes et {cols} colonnes.")
